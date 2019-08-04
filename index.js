@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const axios = require("axios");
 
+// body parser
+app.use(express.json());
+
 // view engine
 app.set("view engine", "ejs");
 

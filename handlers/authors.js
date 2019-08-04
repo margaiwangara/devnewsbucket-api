@@ -13,12 +13,13 @@ exports.createAuthor = async (req, res, next) => {
       // check if author already exists
       const existAuthor = await db.Author.findOne({ name: author.name });
       if (!existAuthor) {
-        authors.push(author);
+        // create new author
+        const newAuthor = await db.Author.create(author);
+        authors.push(newAuthor);
       }
     }
 
-    const newAuthor = await db.Author.insertMany(authors);
-    return res.status(201).json(newAuthor);
+    return res.status(201).json(authors);
   } catch (error) {
     return next(error);
   }

@@ -29,19 +29,19 @@ const errorHandler = require("./handlers/errors");
 app.use(errorHandler);
 
 // automated acquisition
-const duration = 1000 * 60 * 60 * 6;
+const duration = 1000 * 60;
 const url = "https://devnewsbucket.herokuapp.com/api";
 const db = require("./models");
 
-db.Article.deleteMany({})
-  .then(res => console.log(res))
-  .catch(error => console.log(error));
-db.Author.deleteMany({})
-  .then(res => console.log(res))
-  .catch(error => console.log(error));
-db.Language.deleteMany({})
-  .then(res => console.log(res))
-  .catch(error => console.log(error));
+// db.Article.deleteMany({})
+//   .then(res => console.log(res))
+//   .catch(error => console.log(error));
+// db.Author.deleteMany({})
+//   .then(res => console.log(res))
+//   .catch(error => console.log(error));
+// db.Language.deleteMany({})
+//   .then(res => console.log(res))
+//   .catch(error => console.log(error));
 
 setInterval(function() {
   axios

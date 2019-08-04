@@ -12,7 +12,8 @@ exports.createArticle = async (req, res, next) => {
       const articleExists = await db.Article.findOne({ link });
       if (!articleExists) {
         // push to articles
-        articles.push({
+        // create article
+        const newArticle = await db.Article.create({
           title,
           image,
           link,
@@ -21,13 +22,14 @@ exports.createArticle = async (req, res, next) => {
           language: "laravel",
           datePublished: date
         });
+
+        // push newArticles to article
+        articles.push(newArticle);
       }
     }
 
-    // create article
-    const newArticle = await db.Article.insertMany(articles);
-
-    return res.status(200).json(newArticle);
+    
+    return res.status(200).json(articles);
   } catch (error) {
     return next(error);
   }

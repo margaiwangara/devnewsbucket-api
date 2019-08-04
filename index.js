@@ -31,7 +31,7 @@ app.use(errorHandler);
 // automated acquisition
 const { createAuthor } = require("./handlers/authors");
 const { createArticle } = require("./handlers/articles");
-const duration = 1000 * 60;
+const duration = 1000 * 60 * 60 * 6;
 setInterval(function() {
   createAuthor();
   createArticle();

@@ -28,5 +28,9 @@ app.use((req, res, next) => {
 // error handler
 app.use(errorHandler);
 
+// automated acquisition
+const { createArticle } = require("./handlers/articles");
+const duration = 1000 * 60 * 60 * 6;
+setInterval(createArticle, duration);
 // listen
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

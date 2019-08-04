@@ -32,5 +32,6 @@ app.use(errorHandler);
 const { createArticle } = require("./handlers/articles");
 const duration = 1000 * 60 * 60 * 6;
 setInterval(createArticle, duration);
+setInterval(() => console.log("loading..."), 5000);
 // listen
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

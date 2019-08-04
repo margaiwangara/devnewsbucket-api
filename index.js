@@ -12,13 +12,18 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+// middlewares
+const { loginRequired, userAuthorized } = require("./middlewares/auth");
 // Api Routing
 const authorRoutes = require("./routes/authors");
 const articleRoutes = require("./routes/articles");
+const authRoutes = require("./routes/auth");
 // Author Routes
 app.use("/api/authors", authorRoutes);
 // Article Routes
 app.use("/api/articles", articleRoutes);
+// User Routes
+app.use("/api/auth", authRoutes);
 
 //all routes
 app.use((req, res, next) => {

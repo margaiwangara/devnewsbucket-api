@@ -1,4 +1,5 @@
 {
-  "localmongoURI": "mongodb://localhost/devnewsbucket",
-  "mongoURI": "mongodb://margaiwangara:aYVlEf6dklod9pQi@ds259377.mlab.com:59377/devnewsbucket"
+  "mongoURI": "mongodb://localhost/devnewsbucket",
+  "lmongoURI": "mongodb://margaiwangara:aYVlEf6dklod9pQi@ds259377.mlab.com:59377/devnewsbucket",
+  "secretKey": "aamMMggkjahhsjajfTauuajjklGIUYO:JK:LNJGKk"
 }

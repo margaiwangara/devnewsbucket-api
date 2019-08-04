@@ -29,7 +29,7 @@ const errorHandler = require("./handlers/errors");
 app.use(errorHandler);
 
 // automated acquisition
-const duration = 1000 * 60;
+const duration = 1000 * 60 * 60 * 6;
 const url = "https://devnewsbucket.herokuapp.com/api";
 const db = require("./models");
 

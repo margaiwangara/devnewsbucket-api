@@ -29,8 +29,8 @@ const errorHandler = require("./handlers/errors");
 app.use(errorHandler);
 
 // automated acquisition
-const duration = 1000 * 60 * 60 * 6;
-const url = "http://localhost:5000/api";
+const duration = 1000 * 60;
+const url = "https://devnewsbucket.herokuapp.com/api";
 const db = require("./models");
 
 // db.Article.deleteMany({})

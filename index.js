@@ -29,11 +29,13 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 // automated acquisition
+const { createAuthor } = require("./handlers/authors");
 const { createArticle } = require("./handlers/articles");
 const duration = 1000 * 60 * 60 * 6;
 setInterval(function() {
+  createAuthor();
   createArticle();
-  console.log("creating article ...");
+  console.log("creating...");
 }, duration);
 // listen
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

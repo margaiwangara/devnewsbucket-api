@@ -14,19 +14,22 @@ exports.createArticle = async (req, res, next) => {
         if (!articleExists) {
           // if doesn't exist find author id
           const articleAuthor = await db.Author.findOne({ name: author.name });
+          // if author exists
+          let authorId = null;
           if (articleAuthor) {
-            // if exists add to articles
-            const newArticle = await db.Article.create({
-              title,
-              image,
-              link,
-              summary: content,
-              author: articleAuthor.id,
-              datePublished: date
-            });
-
-            return res.status(200).json(newArticle);
+            authorId = articleAuthor.id;
           }
+          // create article
+          const newArticle = await db.Article.create({
+            title,
+            image,
+            link,
+            summary: content,
+            author: authorId,
+            datePublished: date
+          });
+
+          return res.status(200).json(newArticle);
         }
       } catch (error) {
         return next(error);

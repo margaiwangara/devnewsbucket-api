@@ -4,21 +4,21 @@ const { scrapCollection } = require("../scraper");
 exports.createAuthor = async (req, res, next) => {
   try {
     const data = await scrapCollection();
-    data.forEach(async value => {
-      try {
-        // destructure author from pile
-        const { author } = value;
+    let authors = [];
 
-        // check if author already exists
-        const existAuthor = await db.Author.findOne({ name: author.name });
-        if (!existAuthor) {
-          const newAuthor = await db.Author.create(author);
-          return res.status(201).json(newAuthor);
-        }
-      } catch (error) {
-        return next(error);
+    for (let value of data) {
+      // destructure author from pile
+      const { author } = value;
+
+      // check if author already exists
+      const existAuthor = await db.Author.findOne({ name: author.name });
+      if (!existAuthor) {
+        authors.push(author);
       }
-    });
+    }
+
+    const newAuthor = await db.Author.insertMany(authors);
+    return res.status(201).json(newAuthor);
   } catch (error) {
     return next(error);
   }

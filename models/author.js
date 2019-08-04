@@ -8,13 +8,13 @@ const authorSchema = new mongoose.Schema({
   },
   gravatar: {
     type: String
-  },
-  articles: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Article"
-    }
-  ]
+  }
+  // articles: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "Article"
+  //   }
+  // ]
 });
 
 const Author = mongoose.model("Author", authorSchema);

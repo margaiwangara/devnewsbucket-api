@@ -27,12 +27,17 @@ const articleSchema = new mongoose.Schema({
     default: Date.now
   },
   author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Author"
+    name: {
+      type: String,
+      required: true
+    },
+    gravatar: {
+      type: String
+    }
   },
   language: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Language"
+    type: String,
+    required: true
   }
 });
 

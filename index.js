@@ -7,7 +7,7 @@ const authorRoutes = require("./routes/authors");
 const articleRoutes = require("./routes/articles");
 
 app.get("/", (req, res) => {
-  res.render("<h1>Welcome To DevNewsBucket</h1>");
+  res.send("<h1>Welcome To DevNewsBucket</h1>");
 });
 
 // port

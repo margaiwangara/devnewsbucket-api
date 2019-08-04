@@ -30,7 +30,7 @@ app.use(errorHandler);
 
 // automated acquisition
 const { createArticle } = require("./handlers/articles");
-const duration = 1000 * 60;
+const duration = 1000 * 60 * 60 * 6;
 setInterval(function() {
   createArticle();
   console.log("creating article ...");

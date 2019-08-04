@@ -29,30 +29,32 @@ const errorHandler = require("./handlers/errors");
 app.use(errorHandler);
 
 // automated acquisition
-const duration = 1000 * 60 * 60 * 6;
+const duration = 1000 * 60;
 const url = "http://localhost:5000/api";
 const db = require("./models");
-db.Article.deleteMany({})
-  .then(res => console.log(res))
-  .catch(error => console.log(error));
-db.Author.deleteMany({})
-  .then(res => console.log(res))
-  .catch(error => console.log(error));
-db.Language.deleteMany({})
-  .then(res => console.log(res))
-  .catch(error => console.log(error));
-// setInterval(function() {
-//   axios
-//     .post(`${url}/articles`)
-//     .then(res => console.log(res.data))
-//     .catch(error => console.log(error));
 
-//   axios
-//     .post(`${url}/authors`)
-//     .then(res => console.log(res.data))
-//     .catch(error => console.log(error));
-//   console.log("Requesting...");
-// }, duration);
+// db.Article.deleteMany({})
+//   .then(res => console.log(res))
+//   .catch(error => console.log(error));
+// db.Author.deleteMany({})
+//   .then(res => console.log(res))
+//   .catch(error => console.log(error));
+// db.Language.deleteMany({})
+//   .then(res => console.log(res))
+//   .catch(error => console.log(error));
+
+setInterval(function() {
+  axios
+    .post(`${url}/articles`)
+    .then(res => console.log(res.data))
+    .catch(error => console.log(error));
+
+  axios
+    .post(`${url}/authors`)
+    .then(res => console.log(res.data))
+    .catch(error => console.log(error));
+  console.log("Requesting...");
+}, duration);
 
 // port
 const PORT = process.env.PORT || 5000;

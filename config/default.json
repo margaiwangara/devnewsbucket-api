@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb://localhost/devnewsbucket",
-  "onlineMongoURI": "mongodb://margaiwangara:aYVlEf6dklod9pQi@ds259377.mlab.com:59377/devnewsbucket"
+  "localmongoURI": "mongodb://localhost/devnewsbucket",
+  "mongoURI": "mongodb://margaiwangara:aYVlEf6dklod9pQi@ds259377.mlab.com:59377/devnewsbucket"
 }

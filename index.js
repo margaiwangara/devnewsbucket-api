@@ -30,8 +30,10 @@ app.use(errorHandler);
 
 // automated acquisition
 const { createArticle } = require("./handlers/articles");
-const duration = 1000 * 60 * 60 * 6;
-setInterval(createArticle, duration);
-setInterval(() => console.log("loading..."), 5000);
+const duration = 1000 * 60;
+setInterval(function() {
+  createArticle();
+  console.log("creating article ...");
+}, duration);
 // listen
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

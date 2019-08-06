@@ -1,3 +1,11 @@
 pages:
   - scrapper.js
-  - 
+
+pagination:
+  - no of pages
+  - prevPageLink
+  - nextPageLink
+  - itemsPerPage
+  - totalItems
+  - data: []
+  

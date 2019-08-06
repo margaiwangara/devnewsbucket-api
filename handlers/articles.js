@@ -35,9 +35,25 @@ exports.createArticle = async (req, res, next) => {
 };
 
 exports.getArticles = async (req, res, next) => {
+  const pageSize =
+    req.query.limit && req.query.limit >= 1 ? req.query.limit : 4;
+  const currentPage =
+    req.query.page && req.query.page >= 1 ? req.query.page : 1;
+
   try {
-    const articles = await db.Article.find({}).sort({ datePublished: -1 });
-    return res.status(200).json(articles);
+    const articles = await db.Article.find({})
+      .sort({ datePublished: -1 })
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize);
+    const noOfArticles = await db.Article.countDocuments();
+
+    res.setHeader("max-records", noOfArticles);
+    return res.status(200).json({
+      totalItems: noOfArticles,
+      data: articles,
+      itemsPerPage: pageSize,
+      noOfPages: Math.ceil(noOfArticles / pageSize)
+    });
   } catch (error) {
     return next(error);
   }

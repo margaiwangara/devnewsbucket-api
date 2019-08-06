@@ -74,7 +74,6 @@ setInterval(function() {
   console.log("Requesting...");
 }, duration);
 
-console.log("mongoURI: " + process.env.MONGO_URI);
 // port
 const PORT = process.env.PORT || 5000;
 // listen

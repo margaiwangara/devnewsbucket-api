@@ -35,10 +35,10 @@ exports.createArticle = async (req, res, next) => {
 };
 
 exports.getArticles = async (req, res, next) => {
-  const pageSize =
-    req.query.limit && req.query.limit >= 1 ? req.query.limit : 4;
-  const currentPage =
-    req.query.page && req.query.page >= 1 ? req.query.page : 1;
+  const limit = parseInt(req.query.limit);
+  const page = parseInt(req.query.page);
+  const pageSize = limit && limit >= 1 ? limit : 4;
+  const currentPage = page && page >= 1 ? page : 1;
 
   try {
     const articles = await db.Article.find({})

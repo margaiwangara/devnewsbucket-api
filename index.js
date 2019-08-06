@@ -11,8 +11,6 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-const db = require("./models");
-
 // middlewares
 const { loginRequired, userAuthorized } = require("./middlewares/auth");
 // Api Routing

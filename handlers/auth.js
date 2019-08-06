@@ -2,6 +2,7 @@ const db = require("../models");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 
+const secretKey = process.env.SECRET_KEY | config.get("secretKey");
 // access account
 exports.accessAccount = async (req, res, next) => {
   try {
@@ -16,7 +17,7 @@ exports.accessAccount = async (req, res, next) => {
           id,
           email
         },
-        config.get("secretKey"),
+        secretKey,
         {
           expiresIn: 3600
         }
@@ -57,7 +58,7 @@ exports.createAccount = async (req, res, next) => {
         id,
         email
       },
-      config.get("secretKey"),
+      secretKey,
       {
         expiresIn: 3600
       }

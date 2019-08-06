@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const config = require("config");
-const db = config.get("mongoURI");
+const db = process.env.MONGO_URI | config.get("mongoURI");
+const debug = process.env.MONGO_DEBUG | true;
 
-mongoose.set("debug", true);
+mongoose.set("debug", debug);
 mongoose.Promise = Promise;
 
 mongoose

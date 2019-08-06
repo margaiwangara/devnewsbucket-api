@@ -1,11 +1,12 @@
 const config = require("config");
 const jwt = require("jsonwebtoken");
 
+const secretKey = process.env.SECRET_KEY | config.get("secretKey");
 // authentication - check if user is logged in
 exports.loginRequired = (req, res, next) => {
   try {
     const token = req.headers.authorization.split("")[1];
-    jwt.verify(token, config.get("secretKey"), (error, payload) => {
+    jwt.verify(token, secretKey, (error, payload) => {
       if (payload) {
         return next();
       } else {
@@ -27,7 +28,7 @@ exports.loginRequired = (req, res, next) => {
 exports.userAuthorized = (req, res, next) => {
   try {
     const token = req.headers.authorization.split("")[1];
-    jwt.verify(token, config.get("secretKey"), (error, payload) => {
+    jwt.verify(token, secretKey, (error, payload) => {
       if (payload && payload.id == req.params.id) {
         return next();
       } else {

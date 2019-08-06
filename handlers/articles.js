@@ -28,7 +28,6 @@ exports.createArticle = async (req, res, next) => {
       }
     }
 
-    
     return res.status(200).json(articles);
   } catch (error) {
     return next(error);
@@ -37,7 +36,7 @@ exports.createArticle = async (req, res, next) => {
 
 exports.getArticles = async (req, res, next) => {
   try {
-    const articles = await db.Article.find({});
+    const articles = await db.Article.find({}).sort({ datePublished: -1 });
     return res.status(200).json(articles);
   } catch (error) {
     return next(error);

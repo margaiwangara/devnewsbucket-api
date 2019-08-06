@@ -1,7 +1,7 @@
 const config = require("config");
 const jwt = require("jsonwebtoken");
 
-const secretKey = process.env.SECRET_KEY | config.get("secretKey");
+const secretKey = process.env.SECRET_KEY || config.get("secretKey");
 // authentication - check if user is logged in
 exports.loginRequired = (req, res, next) => {
   try {

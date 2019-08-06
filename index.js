@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const axios = require("axios");
-
+const data = require("./dummy/data.json");
 // body parser
 app.use(express.json());
 
@@ -11,6 +11,8 @@ app.set("view engine", "ejs");
 app.get("/", (req, res) => {
   res.render("home");
 });
+
+const db = require("./models");
 
 // middlewares
 const { loginRequired, userAuthorized } = require("./middlewares/auth");
@@ -39,17 +41,6 @@ app.use(errorHandler);
 // automated acquisition
 const duration = 1000 * 60 * 60 * 6;
 const url = "https://devnewsbucket.herokuapp.com/api";
-const db = require("./models");
-
-// db.Article.deleteMany({})
-//   .then(res => console.log(res))
-//   .catch(error => console.log(error));
-// db.Author.deleteMany({})
-//   .then(res => console.log(res))
-//   .catch(error => console.log(error));
-// db.Language.deleteMany({})
-//   .then(res => console.log(res))
-//   .catch(error => console.log(error));
 
 setInterval(function() {
   axios

@@ -6,12 +6,12 @@ const languageSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  articles: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Article"
-    }
-  ]
+  // articles: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "Article"
+  //   }
+  // ]
 });
 
 const Language = mongoose.model("Language", languageSchema);

@@ -16,12 +16,16 @@ const { loginRequired, userAuthorized } = require("./middlewares/auth");
 // Api Routing
 const authorRoutes = require("./routes/authors");
 const articleRoutes = require("./routes/articles");
+const languageRoutes = require("./routes/languages");
 const authRoutes = require("./routes/auth");
+
 // Author Routes
 app.use("/api/authors", authorRoutes);
 // Article Routes
 app.use("/api/articles", articleRoutes);
-// User Routes
+// Language Routes
+app.use("/api/languages", languageRoutes);
+// Auth Routes
 app.use("/api/auth", authRoutes);
 
 //all routes

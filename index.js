@@ -36,7 +36,7 @@ const errorHandler = require("./handlers/errors");
 app.use(errorHandler);
 
 // automated acquisition
-const durationInHours = 1;
+const durationInHours = 6;
 const now = new Date();
 const nextHour = new Date(
   now.getFullYear(),

@@ -36,7 +36,18 @@ const errorHandler = require("./handlers/errors");
 app.use(errorHandler);
 
 // automated acquisition
-const duration = 1000 * 60 * 60 * 6;
+const durationInHours = 1;
+const now = new Date();
+const nextHour = new Date(
+  now.getFullYear(),
+  now.getMonth(),
+  now.getDate(),
+  now.getHours() + durationInHours,
+  0,
+  0,
+  0
+);
+let difference = nextHour - now;
 const url = "https://devnewsbucket.herokuapp.com/api";
 
 setInterval(function() {
@@ -50,17 +61,8 @@ setInterval(function() {
       }
     });
 
-  axios
-    .post(`${url}/authors`)
-    .then(res => console.log(res.data))
-    .catch(error => {
-      if (error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-      }
-    });
   console.log("Requesting...");
-}, duration);
+}, difference);
 
 // port
 const PORT = process.env.PORT || 5000;

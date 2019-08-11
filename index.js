@@ -77,7 +77,7 @@ setInterval(function() {
     });
 
   console.log("Requesting...");
-}, 1000 * 30);
+}, difference);
 
 // port
 const PORT = process.env.PORT || 5000;

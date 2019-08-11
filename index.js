@@ -84,7 +84,7 @@ setInterval(function() {
     });
 
   console.log("Requesting...");
-}, 1000 * 60);
+}, difference);
 
 // port
 const PORT = process.env.PORT || 5000;

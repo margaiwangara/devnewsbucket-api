@@ -20,3 +20,4 @@ module.exports.Article = require("./article");
 module.exports.Language = require("./language");
 module.exports.Author = require("./author");
 module.exports.User = require("./user");
+module.exports.Request = require("./request");

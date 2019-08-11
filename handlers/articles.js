@@ -23,6 +23,11 @@ exports.createArticle = async (req, res, next) => {
           datePublished: date
         });
 
+        // add request to database
+        const newRequest = await db.Request.create({
+          name: "laravel-request"
+        });
+
         // push newArticles to article
         articles.push(newArticle);
       }

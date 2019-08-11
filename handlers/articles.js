@@ -36,15 +36,22 @@ exports.createArticle = async (req, res, next) => {
 
         // push newArticles to article
         articles.push(newArticle);
-      }
 
-      // add request to database
-      const newRequest = await db.Request.create({
-        name: request.name,
-        description: `Request made on ${moment().format("LLLL")}`
-      });
+        // add request to database
+        const newRequest = await db.Request.create({
+          name: request.name,
+          description: `Request made on ${moment().format(
+            "LLLL"
+          )}. Records Added`
+        });
+      }
     }
 
+    // add request to database
+    const newRequest = await db.Request.create({
+      name: "confirmation-request",
+      description: `Request made on ${moment().format("LLLL")}`
+    });
     return res.status(200).json(articles);
   } catch (error) {
     return next(error);

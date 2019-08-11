@@ -65,6 +65,13 @@ const nextHour = new Date(
 let difference = nextHour - now;
 const url = "https://devnewsbucket.herokuapp.com/api";
 
+// delete db data
+// db.Article.deleteMany({})
+//   .then(resp => console.log("articles deleted"))
+//   .catch(error => console.log(error));
+// db.Request.deleteMany({})
+//   .then(resp => console.log("request deleted"))
+//   .catch(error => console.log(error));
 setInterval(function() {
   axios
     .post(`${url}/articles`)
@@ -77,7 +84,7 @@ setInterval(function() {
     });
 
   console.log("Requesting...");
-}, difference);
+}, 1000 * 60 * 60);
 
 // port
 const PORT = process.env.PORT || 5000;

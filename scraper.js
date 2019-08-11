@@ -33,11 +33,19 @@ const LaravelScrap = async page => {
         author: {
           gravatar: $authorGravatar.attr("src"),
           name: $authorName.text()
+        },
+        language: {
+          name: "php",
+          framework: "laravel"
+        },
+        request: {
+          name: "php-laravel-request"
         }
       };
 
       articles.push(article);
     });
+    // return articles;
   } catch (error) {
     console.log(error);
   }

@@ -36,8 +36,13 @@ const articleSchema = new mongoose.Schema({
     }
   },
   language: {
-    type: String,
-    required: true
+    name: {
+      type: String,
+      required: true
+    },
+    framework: {
+      type: String
+    }
   }
 });
 

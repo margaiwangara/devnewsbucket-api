@@ -1,4 +1,6 @@
 const db = require("../models");
+const moment = require("moment");
+
 const { scrapCollection } = require("../scraper");
 
 exports.createArticle = async (req, res, next) => {
@@ -6,7 +8,16 @@ exports.createArticle = async (req, res, next) => {
     const data = await scrapCollection();
     let articles = [];
     for (let article of data) {
-      const { title, image, link, content, date, author } = article;
+      const {
+        title,
+        image,
+        link,
+        content,
+        date,
+        author,
+        language,
+        request
+      } = article;
 
       // check if article exists
       const articleExists = await db.Article.findOne({ link });
@@ -18,19 +29,20 @@ exports.createArticle = async (req, res, next) => {
           image,
           link,
           summary: content,
-          author: author,
-          language: "laravel",
+          author,
+          language,
           datePublished: date
-        });
-
-        // add request to database
-        const newRequest = await db.Request.create({
-          name: "laravel-request"
         });
 
         // push newArticles to article
         articles.push(newArticle);
       }
+
+      // add request to database
+      const newRequest = await db.Request.create({
+        name: request.name,
+        description: `Request made on ${moment().format("LLLL")}`
+      });
     }
 
     return res.status(200).json(articles);

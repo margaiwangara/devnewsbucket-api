@@ -5,6 +5,9 @@ const requestSchema = new mongoose.Schema({
     type: String,
 
   },
+  description:{
+    type: String
+  },
   dateCreated:{
     type: Date,
     default: Date.now

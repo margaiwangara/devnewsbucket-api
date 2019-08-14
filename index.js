@@ -51,7 +51,7 @@ const errorHandler = require("./handlers/errors");
 app.use(errorHandler);
 
 // automated acquisition
-const durationInHours = 1;
+const durationInHours = 4;
 const now = new Date();
 const nextHour = new Date(
   now.getFullYear(),
@@ -64,7 +64,7 @@ const nextHour = new Date(
 );
 let difference = nextHour - now;
 const url = "https://devnewsbucket.herokuapp.com/api";
-
+const duration = 1000 * 60 * 60 * 4;
 setInterval(function() {
   axios
     .post(`${url}/articles`)
@@ -77,7 +77,7 @@ setInterval(function() {
     });
 
   console.log("Requesting...");
-}, difference);
+}, duration);
 
 // port
 const PORT = process.env.PORT || 5000;

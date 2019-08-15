@@ -1,9 +1,11 @@
 const db = require("../models");
-const { scrapCollection } = require("../scraper");
+
+// data collector
+const { dataCollector } = require("../lib/collector");
 
 exports.createAuthor = async (req, res, next) => {
   try {
-    const data = await scrapCollection();
+    const data = await dataCollector();
     let authors = [];
 
     for (let value of data) {

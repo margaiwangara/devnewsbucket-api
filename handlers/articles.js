@@ -1,23 +1,15 @@
 const db = require("../models");
 const moment = require("moment");
 
-const { scrapCollection } = require("../scraper");
+const { dataCollector } = require("../lib/collector");
 
 exports.createArticle = async (req, res, next) => {
   try {
-    const data = await scrapCollection();
-    let articles = [];
+    const data = await dataCollector();
+    const articles = [];
     for (let article of data) {
-      const {
-        title,
-        image,
-        link,
-        content,
-        date,
-        author,
-        language,
-        request
-      } = article;
+      // destructure
+      const { link, content, date, request } = article;
 
       // check if article exists
       const articleExists = await db.Article.findOne({ link });
@@ -25,16 +17,12 @@ exports.createArticle = async (req, res, next) => {
         // push to articles
         // create article
         const newArticle = await db.Article.create({
-          title,
-          image,
-          link,
+          ...article,
           summary: content,
-          author,
-          language,
           datePublished: date
         });
 
-        // push newArticles to article
+        // push to array
         articles.push(newArticle);
 
         // add request to database

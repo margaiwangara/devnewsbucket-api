@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const axios = require("axios");
+
 // body parser
 app.use(express.json());
 
@@ -39,6 +39,9 @@ app.get("/api/requests", async (req, res, next) => {
   }
 });
 
+// require cron for continous requests
+require("./lib/cron");
+
 //all routes
 app.use((req, res, next) => {
   let err = Error("Not Found");
@@ -49,35 +52,6 @@ app.use((req, res, next) => {
 // error handler
 const errorHandler = require("./handlers/errors");
 app.use(errorHandler);
-
-// automated acquisition
-const durationInHours = 4;
-const now = new Date();
-const nextHour = new Date(
-  now.getFullYear(),
-  now.getMonth(),
-  now.getDate(),
-  now.getHours() + durationInHours,
-  0,
-  0,
-  0
-);
-let difference = nextHour - now;
-const url = "https://devnewsbucket.herokuapp.com/api";
-const duration = 1000 * 60 * 60 * 4;
-setInterval(function() {
-  axios
-    .post(`${url}/articles`)
-    .then(res => console.log(res.data))
-    .catch(error => {
-      if (error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-      }
-    });
-
-  console.log("Requesting...");
-}, duration);
 
 // port
 const PORT = process.env.PORT || 5000;

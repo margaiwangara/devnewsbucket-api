@@ -1,5 +1,4 @@
 {
   "mongoURI": "mongodb://localhost/devnewsbucket",
-  "secretKey": "aamMMggkjahhsjajfTauuajjklGIUYO:JK:LNJGKk",
-  "newConfig": "dddddd"
+  "secretKey": "aamMMggkjahhsjajfTauuajjklGIUYO:JK:LNJGKk"
 }

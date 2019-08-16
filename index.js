@@ -44,6 +44,11 @@ db.Request.deleteMany({})
     successlog.info(`[MONGOOSE]: Deleted all files from request collection`)
   )
   .catch(error => errorlog.info(error));
+db.Request.collection
+  .drop()
+  .then(success => successlog.info(`[MONGOOSE]: Collection Dropped`))
+  .catch(error => errorlog.info(error));
+
 // require cron for continous requests
 require("./lib/cron");
 

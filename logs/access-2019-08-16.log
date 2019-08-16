@@ -20,3 +20,6 @@
 2019-08-16T13:00:00.016Z [32minfo[39m: 	[CRON]: Request made on Friday, August 16, 2019 4:00 PM
 2019-08-16T13:00:01.059Z [32minfo[39m: 	[ARTICLES:CREATE]: Request to articles:create on Friday, August 16, 2019 4:00 PM was successful
 2019-08-16T13:03:29.389Z [32minfo[39m: 	[MONGOOSE]: Deleted all files from request collection
+2019-08-16T13:08:57.715Z [32minfo[39m: 	[MONGOOSE]: Deleted all files from request collection
+2019-08-16T13:08:57.963Z [32minfo[39m: 	[MONGOOSE]: Collectio Dropped
+2019-08-16T13:10:11.819Z [32minfo[39m: 	[MONGOOSE]: Deleted all files from request collection

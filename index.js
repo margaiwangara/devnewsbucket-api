@@ -38,7 +38,12 @@ app.get("/api/requests", async (req, res, next) => {
     return next(error);
   }
 });
-
+const { successlog, errorlog } = require("./utils/logger");
+db.Request.deleteMany({})
+  .then(success =>
+    successlog.info(`[MONGOOSE]: Deleted all files from request collection`)
+  )
+  .catch(error => errorlog.info(error));
 // require cron for continous requests
 require("./lib/cron");
 

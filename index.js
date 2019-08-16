@@ -27,27 +27,6 @@ app.use("/api/articles", articleRoutes);
 app.use("/api/languages", languageRoutes);
 // Auth Routes
 app.use("/api/auth", authRoutes);
-// View Request
-const db = require("./models");
-app.get("/api/requests", async (req, res, next) => {
-  try {
-    const requests = await db.Request.find({}).sort({ dateCreated: -1 });
-
-    return res.status(200).json(requests);
-  } catch (error) {
-    return next(error);
-  }
-});
-const { successlog, errorlog } = require("./utils/logger");
-db.Request.deleteMany({})
-  .then(success =>
-    successlog.info(`[MONGOOSE]: Deleted all files from request collection`)
-  )
-  .catch(error => errorlog.info(error));
-db.Request.collection
-  .drop()
-  .then(success => successlog.info(`[MONGOOSE]: Collection Dropped`))
-  .catch(error => errorlog.info(error));
 
 // require cron for continous requests
 require("./lib/cron");

@@ -5,8 +5,7 @@ const app = express();
 app.use(express.json());
 
 // view engine
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "hbs");
+app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
   res.render("home");

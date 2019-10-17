@@ -19,6 +19,10 @@ const articleSchema = new mongoose.Schema({
     required: true,
     maxlength: 500
   },
+  content: {
+    type: String,
+    required: true
+  },
   datePublished: {
     type: Date
   },

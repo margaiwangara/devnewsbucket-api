@@ -18,7 +18,7 @@ exports.createArticle = async (req, res, next) => {
         // create article
         const newArticle = await db.Article.create({
           ...article,
-          summary: content,
+          summary,
           datePublished: date
         });
 

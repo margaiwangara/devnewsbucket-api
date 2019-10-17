@@ -12,15 +12,15 @@ app.get("/", (req, res) => {
 });
 
 // import
-const { saveLaravelArticles } = require("./lib/storer");
-app.get("/all", async (req, res) => {
-  try {
-    const result = await saveLaravelArticles();
-    res.json(result);
-  } catch (error) {
-    console.log(error);
-  }
-});
+// const { saveLaravelArticles } = require("./lib/storer");
+// app.get("/all", async (req, res) => {
+//   try {
+//     const result = await saveLaravelArticles();
+//     res.json(result);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // middlewares
 const { loginRequired, userAuthorized } = require("./middlewares/auth");

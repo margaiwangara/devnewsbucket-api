@@ -18,7 +18,7 @@ const { dataCollector } = require("./lib/collector");
 app.get("/display", async (req, res) => {
   try {
     const result = await runCreateArticleCron();
-
+    console.log(result.length);
     return res.json(result);
   } catch (error) {
     console.log(error);

@@ -11,17 +11,24 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-// import
+// delete all documents
+const db = require("./models");
+db.Article.deleteMany({})
+  .then(() => console.log("Deleted all files"))
+  .catch(error => console.log(error));
+// import scrapping file
+// const { runCreateArticleCron } = require("./lib/service");
 // const { saveLaravelArticles } = require("./lib/storer");
-// app.get("/all", async (req, res) => {
+// const { dataCollector } = require("./lib/collector");
+// app.get("/display", async (req, res) => {
 //   try {
-//     const result = await saveLaravelArticles();
-//     res.json(result);
+//     const result = await runCreateArticleCron();
+
+//     return res.json(result);
 //   } catch (error) {
 //     console.log(error);
 //   }
 // });
-
 // middlewares
 const { loginRequired, userAuthorized } = require("./middlewares/auth");
 // Api Routing

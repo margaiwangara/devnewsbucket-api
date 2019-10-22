@@ -12,18 +12,16 @@ app.get("/", (req, res) => {
 });
 
 // import scrapping file
-const { runCreateArticleCron } = require("./lib/service");
-const { saveLaravelArticles } = require("./lib/storer");
-const { dataCollector } = require("./lib/collector");
-app.get("/display", async (req, res) => {
-  try {
-    const result = await runCreateArticleCron();
-    console.log(result.length);
-    return res.json(result);
-  } catch (error) {
-    console.log(error);
-  }
-});
+// const { runCreateArticleCron } = require("./lib/service");
+// app.get("/display", async (req, res) => {
+//   try {
+//     const result = await runCreateArticleCron();
+//     console.log(result.length);
+//     return res.json(result);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 // middlewares
 const { loginRequired, userAuthorized } = require("./middlewares/auth");
 // Api Routing

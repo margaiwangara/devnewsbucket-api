@@ -11,26 +11,17 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-// delete all data from authors and articles
-const db = require("./models");
-db.Author.deleteMany({})
-  .then(() => console.log("All authors deleted"))
-  .catch(error => console.log(error));
-db.Article.deleteMany({})
-  .then(() => console.log("All articles deleted"))
-  .catch(error => console.log(error));
-
 // import scrapping file
-const { createArticle } = require("./handlers/articles");
-app.get("/display", async (req, res) => {
-  try {
-    const result = await createArticle();
-    console.log(result.length);
-    return res.json(result);
-  } catch (error) {
-    console.log(error);
-  }
-});
+// const { createArticle } = require("./handlers/articles");
+// app.get("/display", async (req, res) => {
+//   try {
+//     const result = await createArticle();
+//     console.log(result.length);
+//     return res.json(result);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // middlewares
 const { loginRequired, userAuthorized } = require("./middlewares/auth");

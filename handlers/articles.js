@@ -1,6 +1,9 @@
 const db = require("../models");
 const moment = require("moment");
 
+// loggers
+const { successlog, errorlog } = require("../utils/logger");
+
 const { dataCollector } = require("../lib/collector");
 
 exports.createArticle = async (req, res, next) => {
@@ -9,54 +12,51 @@ exports.createArticle = async (req, res, next) => {
     const articles = [];
     for (let article of data) {
       // destructure
-      const { link, content, date, request, author } = article;
+      const { link, date, author } = article;
 
-      let authorId = [];
+      let authors = [];
       // check if author name exists in author db
       const authorExists = await db.Author.findOne({ name: author.name });
       // if exists - get author id , else create author then get author id
       if (authorExists) {
         const { id } = authorExists;
 
-        authorId.push(id);
+        authors.push(id);
       } else {
         const newAuthor = await db.Author.create({ ...author });
 
-        authorId.push(newAuthor.id);
+        authors.push(newAuthor.id);
       }
 
       // check if article exists
       const articleExists = await db.Article.findOne({ link });
-      if (!articleExists) {
-        // push to articles
-        // create article
+
+      // if article exists skip else create new article !null - not null
+      if (articleExists == null) {
+        // create new articles
         const newArticle = await db.Article.create({
           ...article,
-          authors: authorId,
-          summary,
+          authors,
           datePublished: date
         });
 
         // push to array
         articles.push(newArticle);
 
-        // add request to database
-        const newRequest = await db.Request.create({
-          name: request.name,
-          description: `Request made on ${moment().format(
-            "LLLL"
-          )}. Records Added`
-        });
+        successlog.info(
+          `[ARTICLES:CREATE]: New article created on ${moment().format("LLLL")}`
+        );
       }
     }
 
-    // add request to database
-    const newRequest = await db.Request.create({
-      name: "confirmation-request",
-      description: `Request made on ${moment().format("LLLL")}`
-    });
-    return res.status(200).json(articles);
+    successlog.info(
+      `[ARTICLES:CREATE]: Request to articles:create on ${moment().format(
+        "LLLL"
+      )} was successful`
+    );
+    return articles;
   } catch (error) {
+    errorlog.info(error);
     return next(error);
   }
 };
@@ -71,7 +71,8 @@ exports.getArticles = async (req, res, next) => {
     const articles = await db.Article.find({})
       .sort({ datePublished: -1 })
       .skip(pageSize * (currentPage - 1))
-      .limit(pageSize);
+      .limit(pageSize)
+      .populate("authors");
     const noOfArticles = await db.Article.countDocuments();
 
     res.setHeader("max-records", noOfArticles);

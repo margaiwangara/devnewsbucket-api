@@ -21,16 +21,17 @@ const db = require("./models");
 //   .catch(error => console.log(error));
 
 // import scrapping file
-const { runCreateArticleCron } = require("./lib/service");
+const { createArticle } = require("./handlers/articles");
 app.get("/display", async (req, res) => {
   try {
-    const result = await runCreateArticleCron();
+    const result = await createArticle();
     console.log(result.length);
     return res.json(result);
   } catch (error) {
     console.log(error);
   }
 });
+
 // middlewares
 const { loginRequired, userAuthorized } = require("./middlewares/auth");
 // Api Routing

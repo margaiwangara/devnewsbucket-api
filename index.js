@@ -13,12 +13,12 @@ app.get("/", (req, res) => {
 
 // delete all data from authors and articles
 const db = require("./models");
-// db.Author.deleteMany({})
-//   .then(() => console.log("All authors deleted"))
-//   .catch(error => console.log(error));
-// db.Article.deleteMany({})
-//   .then(() => console.log("All articles deleted"))
-//   .catch(error => console.log(error));
+db.Author.deleteMany({})
+  .then(() => console.log("All authors deleted"))
+  .catch(error => console.log(error));
+db.Article.deleteMany({})
+  .then(() => console.log("All articles deleted"))
+  .catch(error => console.log(error));
 
 // import scrapping file
 const { createArticle } = require("./handlers/articles");

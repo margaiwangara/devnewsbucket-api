@@ -9,7 +9,21 @@ exports.createArticle = async (req, res, next) => {
     const articles = [];
     for (let article of data) {
       // destructure
-      const { link, content, date, request } = article;
+      const { link, content, date, request, author } = article;
+
+      let authorId = [];
+      // check if author name exists in author db
+      const authorExists = await db.Author.findOne({ name: author.name });
+      // if exists - get author id , else create author then get author id
+      if (authorExists) {
+        const { id } = authorExists;
+
+        authorId.push(id);
+      } else {
+        const newAuthor = await db.Author.create({ ...author });
+
+        authorId.push(newAuthor.id);
+      }
 
       // check if article exists
       const articleExists = await db.Article.findOne({ link });
@@ -18,6 +32,7 @@ exports.createArticle = async (req, res, next) => {
         // create article
         const newArticle = await db.Article.create({
           ...article,
+          authors: authorId,
           summary,
           datePublished: date
         });

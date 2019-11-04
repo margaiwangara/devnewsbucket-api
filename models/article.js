@@ -30,15 +30,12 @@ const articleSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  author: {
-    name: {
-      type: String,
-      required: true
-    },
-    gravatar: {
-      type: String
+  authors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Author"
     }
-  },
+  ],
   language: {
     name: {
       type: String,

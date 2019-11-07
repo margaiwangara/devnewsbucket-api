@@ -5,15 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>DevNewsBucket</title>
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        font-family: "Lato", sans-serif;
+      }
+      #wrapper {
+        width: 100%;
+        min-height: 100vh;
+        background: #f1f1f1;
+      }
+      .inner-wrapper {
+        width: 80%;
+        height: 100%;
+        padding: 1rem;
+        margin: 0 auto;
+      }
+      .inner-wrapper h1 {
+        text-align: center;
+        color: brown;
+      }
+      .inner-wrapper p {
+        text-align: center;
+        padding: 1rem 0;
+      }
+      .inner-wrapper h5 {
+        text-align: center;
+        padding: 0.5rem 0;
+      }
+      a {
+        text-decoration: none;
+        color: brown;
+      }
+      a:hover {
+        color: burlywood;
+      }
+    </style>
   </head>
   <body>
-    <h1>Welcome To DevNewsBucket</h1>
-
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-      const makeRequests = () => console.log("i want to go home");
-
-      makeRequests();
-    </script>
+    <div id="wrapper">
+      <div class="inner-wrapper">
+        <h1>Welcome To The DevNewsBucket API</h1>
+        <p>
+          <strong>`DevNewsBucket`</strong> is a simple REST API created to
+          display latest news and updates on languages and frameworks involved
+          in web development. The information obtained is acquired from the
+          languages' official website.
+          <span
+            >Currently only data from
+            <a href="https://laravel-news.com/category/news" target="_blank"
+              >Laravel News</a
+            ></span
+          >
+          is available
+        </p>
+        <h5>View Articles: <a href="/api/articles">Click Here</a></h5>
+        <h5>View Authors: <a href="/api/authors">Click Here</a></h5>
+      </div>
+    </div>
   </body>
 </html>

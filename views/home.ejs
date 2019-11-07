@@ -26,7 +26,7 @@
       }
       .inner-wrapper {
         width: 80%;
-        height: 100%;
+        height: 90vh;
         padding: 1rem;
         margin: 0 auto;
       }
@@ -48,6 +48,10 @@
       }
       a:hover {
         color: burlywood;
+      }
+      footer h4 {
+        color: grey;
+        text-align: center;
       }
     </style>
   </head>
@@ -71,6 +75,16 @@
         <h5>View Articles: <a href="/api/articles">Click Here</a></h5>
         <h5>View Authors: <a href="/api/authors">Click Here</a></h5>
       </div>
+      <footer>
+        <h4>
+          &copy; 2019 -
+          <script>
+            let currentYear = new Date().getFullYear();
+            currentYear != 2019 && document.write(`${currentYear} `);
+          </script>
+          Lazy Loading Inc
+        </h4>
+      </footer>
     </div>
   </body>
 </html>

@@ -1,5 +1,6 @@
 const db = require("../models");
 const moment = require("moment");
+const ErrorHandler = require("../utils/errorHandler");
 
 // loggers
 const { successlog, errorlog } = require("../utils/logger");
@@ -77,13 +78,14 @@ exports.getArticles = async (req, res, next) => {
 
     res.setHeader("max-records", noOfArticles);
     return res.status(200).json({
+      success: true,
       totalItems: noOfArticles,
       data: articles,
       itemsPerPage: pageSize,
       noOfPages: Math.ceil(noOfArticles / pageSize)
     });
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
@@ -93,12 +95,15 @@ exports.getArticle = async (req, res, next) => {
       link: req.params.link
     });
 
+    if (!article) {
+      return next(
+        new ErrorHandler(`Article ${req.params.link} not found`, 404)
+      );
+    }
+
     return res.status(200).json(article);
   } catch (error) {
-    return next({
-      status: 404,
-      message: "Not Found"
-    });
+    next(new ErrorHandler(`Article ${req.params.link} not found`, 404));
   }
 };
 
@@ -111,7 +116,7 @@ exports.updateArticle = async (req, res, next) => {
 
     return res.status(200).json(article);
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
@@ -122,7 +127,7 @@ exports.deleteArticle = async (req, res, next) => {
       message: "Article deleted"
     });
   } catch (error) {
-    return next({
+    next({
       status: 500,
       message: "Oops. Something went wrong. Not deleted."
     });

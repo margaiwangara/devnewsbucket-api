@@ -1,47 +1,55 @@
 const config = require("config");
 const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+const ErrorResponse = require("../utils/errorHandler");
 
 const secretKey = process.env.SECRET_KEY || config.get("secretKey");
-// authentication - check if user is logged in
-exports.loginRequired = (req, res, next) => {
+
+exports.userAuthorized = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split("")[1];
-    jwt.verify(token, secretKey, (error, payload) => {
-      if (payload) {
-        return next();
-      } else {
-        return next({
-          status: 401,
-          message: "Please log in to access this service"
-        });
-      }
-    });
+    let token, headers;
+
+    headers = req.headers.authorization;
+    // check if token exists and starts with bearer
+    if (headers && headers.startsWith("Bearer")) token = headers.split(" ")[1];
+    // else if cookie has token store in it grab that token
+    else if (req.cookies.token) token = req.cookies.token;
+
+    // check token
+    if (!token) return next(new ErrorResponse("Unauthorized Access", 401));
+
+    // verify token
+    const decoded = jwt.verify(token, secretKey);
+
+    // get user by id and store in req
+    req.user = await User.findById(decoded.id);
+
+    next();
   } catch (error) {
-    return next({
-      status: 401,
-      message: "Please login to access this service"
-    });
+    next(error);
   }
 };
 
-// authorization - permission to CRUD
-exports.userAuthorized = (req, res, next) => {
+exports.roleAuthorized = (...roles) => async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split("")[1];
-    jwt.verify(token, secretKey, (error, payload) => {
-      if (payload && payload.id == req.params.id) {
-        return next();
-      } else {
-        return next({
-          status: 401,
-          message: "Unauthorized access"
-        });
-      }
-    });
+    // get user
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return next(new ErrorResponse("User not found!", 404));
+    }
+
+    if (!roles.includes(user.role)) {
+      return next(
+        new ErrorResponse(
+          `User role '${user.role}' is not allowed to access this route`,
+          403
+        )
+      );
+    }
+
+    next();
   } catch (error) {
-    return next({
-      error: 401,
-      message: "Unauthorized access"
-    });
+    next(error);
   }
 };

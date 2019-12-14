@@ -63,27 +63,8 @@ exports.createArticle = async (req, res, next) => {
 };
 
 exports.getArticles = async (req, res, next) => {
-  const limit = parseInt(req.query.limit);
-  const page = parseInt(req.query.page);
-  const pageSize = limit && limit >= 1 ? limit : 4;
-  const currentPage = page && page >= 1 ? page : 1;
-
   try {
-    const articles = await db.Article.find({})
-      .sort({ datePublished: -1 })
-      .skip(pageSize * (currentPage - 1))
-      .limit(pageSize)
-      .populate("authors");
-    const noOfArticles = await db.Article.countDocuments();
-
-    res.setHeader("max-records", noOfArticles);
-    return res.status(200).json({
-      success: true,
-      totalItems: noOfArticles,
-      data: articles,
-      itemsPerPage: pageSize,
-      noOfPages: Math.ceil(noOfArticles / pageSize)
-    });
+    return res.status(200).json(res.advancedResults);
   } catch (error) {
     next(error);
   }

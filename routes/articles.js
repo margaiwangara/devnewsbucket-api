@@ -9,10 +9,14 @@ const {
   deleteArticle
 } = require("../handlers/articles");
 
+// middleware
+const advancedResults = require("../middlewares/advancedResults");
+const Article = require("../models/article");
+
 router
   .route("/")
   .post(createArticle)
-  .get(getArticles);
+  .get(advancedResults(Article, "authors"), getArticles);
 
 router
   .route("/:link")

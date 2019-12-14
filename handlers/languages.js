@@ -12,8 +12,7 @@ exports.createLanguage = async (req, res, next) => {
 
 exports.getLanguages = async (req, res, next) => {
   try {
-    const languages = await db.Language.find({});
-    return res.status(200).json(languages);
+    return res.status(200).json(res.advancedResults);
   } catch (error) {
     return next(error);
   }

@@ -29,8 +29,7 @@ exports.createAuthor = async (req, res, next) => {
 
 exports.getAuthors = async (req, res, next) => {
   try {
-    const authors = await db.Author.find({});
-    return res.status(200).json(authors);
+    return res.status(200).json(res.advancedResults);
   } catch (error) {
     return next(error);
   }

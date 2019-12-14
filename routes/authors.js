@@ -9,10 +9,14 @@ const {
   deleteAuthor
 } = require("../handlers/authors");
 
+// middleware
+const advancedResults = require("../middlewares/advancedResults");
+const Author = require("../models/author");
+
 router
   .route("/")
   .post(createAuthor)
-  .get(getAuthors);
+  .get(advancedResults(Author), getAuthors);
 
 router
   .route("/:name")

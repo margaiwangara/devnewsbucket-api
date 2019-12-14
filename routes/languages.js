@@ -8,9 +8,13 @@ const {
   deleteLanguage
 } = require("../handlers/languages");
 
+// middleware
+const advancedResults = require("../middlewares/advancedResults");
+const Language = require("../models/language");
+
 router
   .route("/")
-  .get(getLanguages)
+  .get(advancedResults(Language), getLanguages)
   .post(createLanguage);
 
 router

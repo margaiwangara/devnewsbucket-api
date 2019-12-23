@@ -1,32 +1,43 @@
 const express = require("express");
+const dotenv = require("dotenv");
+
+// security
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const xssClean = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+const hpp = require("hpp");
 const cors = require("cors");
 
-const app = express();
+// load env
+dotenv.config({ path: "./config/config.env" });
 
-// middleware
-// body parser
-app.use(express.json());
-//cors
-app.use(cors());
+// initialize express
+const app = express();
 
 // view engine
 app.set("view engine", "ejs");
 
+// invoke middleware
+app.use(express.json()); //body-parser
+
+// security middleware
+// rate limit
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 100
+});
+app.use(mongoSanitize()); //sanitize input to prevent NoSQL Injection
+app.use(helmet()); //helmet to add headers and prevent security flaws
+app.use(xssClean()); //prevent xss attacks eg <script></script> tags in db
+app.use(limiter); //no of request rate limited
+app.use(hpp()); //prevent http param polution
+app.use(cors()); //enabled cors for all routes
+
+// Web Routes
 app.get("/", (req, res) => {
   res.render("home");
 });
-
-// import scrapping file
-// const { createArticle } = require("./handlers/articles");
-// app.get("/display", async (req, res) => {
-//   try {
-//     const result = await createArticle();
-//     console.log(result.length);
-//     return res.json(result);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
 
 // middlewares
 const { loginRequired, userAuthorized } = require("./middlewares/auth");
@@ -48,18 +59,18 @@ app.use("/api/auth", authRoutes);
 // require cron for continous requests
 require("./lib/cron");
 
-//all routes
-app.use((req, res, next) => {
-  let err = Error("Not Found");
-  err.status = 404;
-  next(err);
-});
-
 // error handler
+app.use((req, res, next) => {
+  let error = new Error("Not Found");
+  error.status = 404;
+  next(error);
+});
 const errorHandler = require("./handlers/errors");
 app.use(errorHandler);
 
 // port
 const PORT = process.env.PORT || 5000;
-// listen
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+app.listen(
+  PORT,
+  console.log(`App running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+);

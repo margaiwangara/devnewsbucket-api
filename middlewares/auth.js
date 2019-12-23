@@ -1,9 +1,8 @@
-const config = require("config");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const ErrorResponse = require("../utils/errorHandler");
 
-const secretKey = process.env.SECRET_KEY || config.get("secretKey");
+const secretKey = process.env.SECRET_KEY;
 
 exports.userAuthorized = async (req, res, next) => {
   try {

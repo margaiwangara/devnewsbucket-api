@@ -15,12 +15,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String
   }
-  // articles: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "Article"
-  //   }
-  // ]
 });
 
 // hash password before storing data

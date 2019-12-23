@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const config = require("config");
-const db = process.env.MONGO_URI || config.get("mongoURI");
+
+const db = process.env.MONGO_URI;
 const debug = process.env.MONGO_DEBUG || true;
 
 mongoose.set("debug", debug);
@@ -14,7 +14,7 @@ mongoose
     keepAlive: true,
     useUnifiedTopology: true
   })
-  .then(() => console.log("MongoDB Connected"))
+  .then(conn => console.log(`MongoDB Connected: ${conn.connection.host}`))
   .catch(error => console.log(error));
 
 module.exports.Article = require("./article");

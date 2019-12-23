@@ -1,8 +1,13 @@
 const express = require("express");
+const cors = require('cors');
+
 const app = express();
 
+// middleware
 // body parser
 app.use(express.json());
+//cors
+app.use(cors());
 
 // view engine
 app.set("view engine", "ejs");

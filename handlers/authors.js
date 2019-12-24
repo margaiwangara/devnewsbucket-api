@@ -37,7 +37,7 @@ exports.getAuthors = async (req, res, next) => {
 
 exports.getAuthor = async (req, res, next) => {
   try {
-    const author = await db.Author.findOne({ name: req.params.name });
+    const author = await await db.Author.findOne({ name: req.params.name });
 
     return res.status(200).json(author);
   } catch (error) {

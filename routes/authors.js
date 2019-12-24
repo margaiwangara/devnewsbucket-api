@@ -16,7 +16,13 @@ const Author = require("../models/author");
 router
   .route("/")
   .post(createAuthor)
-  .get(advancedResults(Author), getAuthors);
+  .get(
+    advancedResults(Author, {
+      path: "articles",
+      select: "title summary datePublished"
+    }),
+    getAuthors
+  );
 
 router
   .route("/:name")

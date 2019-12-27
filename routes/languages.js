@@ -9,7 +9,7 @@ const {
 } = require("../handlers/languages");
 
 // middleware
-const advancedResults = require("../middlewares/advancedResults");
+const advancedResults = require("../middleware/advancedResults");
 const Language = require("../models/language");
 
 router

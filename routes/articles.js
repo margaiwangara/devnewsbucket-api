@@ -10,8 +10,8 @@ const {
 } = require("../handlers/articles");
 
 // middleware
-const { userAuthorized, roleAuthorized } = require("../middlewares/auth");
-const advancedResults = require("../middlewares/advancedResults");
+const { userAuthorized, roleAuthorized } = require("../middleware/auth");
+const advancedResults = require("../middleware/advancedResults");
 const Article = require("../models/article");
 
 router

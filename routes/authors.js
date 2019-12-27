@@ -10,7 +10,7 @@ const {
 } = require("../handlers/authors");
 
 // middleware
-const advancedResults = require("../middlewares/advancedResults");
+const advancedResults = require("../middleware/advancedResults");
 const Author = require("../models/author");
 
 router

@@ -2,8 +2,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const ErrorResponse = require("../utils/errorHandler");
 
-const secretKey = process.env.SECRET_KEY;
-
 exports.userAuthorized = async (req, res, next) => {
   try {
     let token, headers;
@@ -18,7 +16,7 @@ exports.userAuthorized = async (req, res, next) => {
     if (!token) return next(new ErrorResponse("Unauthorized Access", 401));
 
     // verify token
-    const decoded = jwt.verify(token, secretKey);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // get user by id and store in req
     req.user = await User.findById(decoded.id);

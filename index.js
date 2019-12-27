@@ -1,5 +1,8 @@
+const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 
 // security
 const mongoSanitize = require("express-mongo-sanitize");
@@ -15,11 +18,15 @@ dotenv.config({ path: "./config/config.env" });
 // initialize express
 const app = express();
 
+// static files in public folder
+app.use(express.static(path.join(__dirname, "public")));
 // view engine
 app.set("view engine", "ejs");
 
 // invoke middleware
 app.use(express.json()); //body-parser
+app.use(cookieParser());
+app.use(fileUpload());
 
 // security middleware
 // rate limit

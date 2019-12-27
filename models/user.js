@@ -52,11 +52,11 @@ const userSchema = new mongoose.Schema(
 
 // hash password before storing data
 userSchema.pre("save", async function(next) {
-  try {
-    if (!this.isModified("password")) {
-      return next();
-    }
+  if (!this.isModified("password")) {
+    return next();
+  }
 
+  try {
     const hashedPassword = await bcrypt.hash(this.password, 10);
     this.password = hashedPassword;
     return next();
@@ -74,6 +74,21 @@ userSchema.methods.comparePassword = async function(candidatePassword, next) {
     return next(error);
   }
 };
+
+// Password Reset Token
+userSchema.methods.generatePasswordResetToken = function(next) {
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordTokenExpire = Date.now() + 10 * 60 * 1000; // 10 minutes expire
+
+  return resetToken;
+};
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

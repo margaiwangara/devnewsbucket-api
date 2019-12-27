@@ -41,9 +41,6 @@ app.use(limiter); //no of request rate limited
 app.use(hpp()); //prevent http param polution
 app.use(cors()); //enabled cors for all routes
 
-// Route Middleware
-const { loginRequired, userAuthorized } = require("./middleware/auth");
-
 // Web Routes
 const homeRoutes = require("./routes/web/home");
 app.use("/", homeRoutes);

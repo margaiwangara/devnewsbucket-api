@@ -1,12 +1,16 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
 const ErrorResponse = require("../utils/errorHandler");
+const User = require("../models/user");
 
 exports.userAuthorized = async (req, res, next) => {
   try {
     let token, headers;
 
     headers = req.headers.authorization;
+    console.log("headers");
+    console.log(headers);
+
+    if (!headers) return next(new ErrorResponse("Unauthorized Access", 401));
     // check if token exists and starts with bearer
     if (headers && headers.startsWith("Bearer")) token = headers.split(" ")[1];
     // else if cookie has token store in it grab that token

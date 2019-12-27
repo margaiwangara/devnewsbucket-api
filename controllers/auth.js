@@ -133,6 +133,8 @@ exports.getCurrentlyLoggedInUser = async (req, res, next) => {
       data: user
     });
   } catch (error) {
+    console.log("Error");
+    console.log(error);
     next(error);
   }
 };

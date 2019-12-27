@@ -10,6 +10,7 @@ const {
 } = require("../controllers/authors");
 
 // middleware
+const { userAuthorized, roleAuthorized } = require("../middleware/auth");
 const advancedResults = require("../middleware/advancedResults");
 const Author = require("../models/author");
 
@@ -27,7 +28,7 @@ router
 router
   .route("/:name")
   .get(getAuthor)
-  .put(updateAuthor)
-  .delete(deleteAuthor);
+  .put(userAuthorized, roleAuthorized("admin"), updateAuthor)
+  .delete(userAuthorized, roleAuthorized("admin"), deleteAuthor);
 
 module.exports = router;

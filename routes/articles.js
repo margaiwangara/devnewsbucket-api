@@ -22,7 +22,7 @@ router
 router
   .route("/:link")
   .get(getArticle)
-  .put(updateArticle)
-  .delete(deleteArticle);
+  .put(userAuthorized, roleAuthorized("admin"), updateArticle)
+  .delete(userAuthorized, roleAuthorized("admin"), deleteArticle);
 
 module.exports = router;

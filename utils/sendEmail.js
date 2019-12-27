@@ -19,7 +19,6 @@ const sendEmail = async options => {
     });
 
     // email information spread
-    console.log(options);
     const info = await transporter.sendMail(options);
 
     console.log(`Message sent. Id: ${info.messageId}`);

@@ -6,7 +6,7 @@ const {
   getLanguage,
   getLanguages,
   deleteLanguage
-} = require("../handlers/languages");
+} = require("../controllers/languages");
 
 // middleware
 const advancedResults = require("../middleware/advancedResults");

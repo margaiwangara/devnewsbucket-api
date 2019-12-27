@@ -7,7 +7,7 @@ const {
   getAuthor,
   updateAuthor,
   deleteAuthor
-} = require("../handlers/authors");
+} = require("../controllers/authors");
 
 // middleware
 const advancedResults = require("../middleware/advancedResults");

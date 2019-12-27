@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 
-const { createAccount, accessAccount } = require("../handlers/auth");
+const { createAccount, accessAccount } = require("../controllers/auth");
 
 router.post("/signup", createAccount);
 router.post("/signin", accessAccount);

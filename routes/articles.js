@@ -7,7 +7,7 @@ const {
   getArticle,
   updateArticle,
   deleteArticle
-} = require("../handlers/articles");
+} = require("../controllers/articles");
 
 // middleware
 const { userAuthorized, roleAuthorized } = require("../middleware/auth");

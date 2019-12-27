@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema(
   {
@@ -87,6 +89,32 @@ userSchema.methods.generatePasswordResetToken = function(next) {
   this.passwordTokenExpire = Date.now() + 10 * 60 * 1000; // 10 minutes expire
 
   return resetToken;
+};
+
+// Generate email confirm token
+userSchema.methods.generateEmailConfirmToken = function(next) {
+  // email confirmation token
+  const confirmationToken = crypto.randomBytes(20).toString("hex");
+
+  this.confirmEmailToken = crypto
+    .createHash("sha256")
+    .update(confirmationToken)
+    .digest("hex");
+
+  return confirmationToken;
+};
+
+// Generate JSON Web Token
+userSchema.methods.generateJSONWebToken = function(next) {
+  try {
+    const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE
+    });
+
+    return token;
+  } catch (error) {
+    next(error);
+  }
 };
 
 const User = mongoose.model("User", userSchema);

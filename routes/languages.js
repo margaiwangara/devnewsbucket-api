@@ -6,10 +6,11 @@ const {
   getLanguage,
   getLanguages,
   deleteLanguage
-} = require("../handlers/languages");
+} = require("../controllers/languages");
 
 // middleware
-const advancedResults = require("../middlewares/advancedResults");
+const { userAuthorized, roleAuthorized } = require("../middleware/auth");
+const advancedResults = require("../middleware/advancedResults");
 const Language = require("../models/language");
 
 router
@@ -20,7 +21,7 @@ router
 router
   .route("/:name")
   .get(getLanguage)
-  .put(updateLanguage)
-  .delete(deleteLanguage);
+  .put(userAuthorized, roleAuthorized("admin"), updateLanguage)
+  .delete(userAuthorized, roleAuthorized("admin"), deleteLanguage);
 
 module.exports = router;

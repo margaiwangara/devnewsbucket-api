@@ -7,11 +7,11 @@ const {
   getArticle,
   updateArticle,
   deleteArticle
-} = require("../handlers/articles");
+} = require("../controllers/articles");
 
 // middleware
-const { userAuthorized, roleAuthorized } = require("../middlewares/auth");
-const advancedResults = require("../middlewares/advancedResults");
+const { userAuthorized, roleAuthorized } = require("../middleware/auth");
+const advancedResults = require("../middleware/advancedResults");
 const Article = require("../models/article");
 
 router
@@ -22,7 +22,7 @@ router
 router
   .route("/:link")
   .get(getArticle)
-  .put(updateArticle)
-  .delete(deleteArticle);
+  .put(userAuthorized, roleAuthorized("admin"), updateArticle)
+  .delete(userAuthorized, roleAuthorized("admin"), deleteArticle);
 
 module.exports = router;

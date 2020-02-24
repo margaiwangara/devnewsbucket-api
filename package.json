@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "server": "node index.js",
-    "test": "mocha --timeout 10000"
+    "test": "mocha --timeout 10000 --exit"
   },
   "keywords": [],
   "author": "",

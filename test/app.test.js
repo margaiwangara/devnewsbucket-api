@@ -1,3 +1,6 @@
+// set node env to test
+process.env.NODE_ENV = 'testing';
+
 const assert = require('chai').assert;
 
 const data = 'This is a test string';

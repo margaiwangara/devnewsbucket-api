@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
-const { MONGO_URI, MONGO_URI_TESTING, MONGO_DEBUG, NODE_ENV } = process.env;
-
-const db = NODE_ENV == 'testing' ? MONGO_URI_TESTING : MONGO_URI;
-const debug = MONGO_DEBUG || true;
+const db =
+  process.env.NODE_ENV == 'testing'
+    ? process.env.MONGO_URI_TESTING
+    : process.env.MONGO_URI;
+const debug = process.env.MONGO_DEBUG || true;
 
 mongoose.set('debug', debug);
 mongoose.Promise = Promise;

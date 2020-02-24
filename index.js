@@ -1,27 +1,27 @@
-const path = require("path");
-const express = require("express");
-const dotenv = require("dotenv");
-const cookieParser = require("cookie-parser");
-const fileUpload = require("express-fileupload");
+const path = require('path');
+const express = require('express');
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 
 // security
-const mongoSanitize = require("express-mongo-sanitize");
-const helmet = require("helmet");
-const xssClean = require("xss-clean");
-const rateLimit = require("express-rate-limit");
-const hpp = require("hpp");
-const cors = require("cors");
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const xssClean = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const cors = require('cors');
 
 // load env
-dotenv.config({ path: "./config/config.env" });
+dotenv.config({ path: './config/config.env' });
 
 // initialize express
 const app = express();
 
 // static files in public folder
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 // view engine
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 
 // invoke middleware
 app.use(express.json()); //body-parser
@@ -32,7 +32,7 @@ app.use(fileUpload());
 // rate limit
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 100
+  max: 100,
 });
 app.use(mongoSanitize()); //sanitize input to prevent NoSQL Injection
 app.use(helmet()); //helmet to add headers and prevent security flaws
@@ -42,39 +42,41 @@ app.use(hpp()); //prevent http param polution
 app.use(cors()); //enabled cors for all routes
 
 // Web Routes
-const homeRoutes = require("./routes/web/home");
-app.use("/", homeRoutes);
+const homeRoutes = require('./routes/web/home');
+app.use('/', homeRoutes);
 
 // Api Routing
-const authorRoutes = require("./routes/authors");
-const articleRoutes = require("./routes/articles");
-const languageRoutes = require("./routes/languages");
-const authRoutes = require("./routes/auth");
+const authorRoutes = require('./routes/authors');
+const articleRoutes = require('./routes/articles');
+const languageRoutes = require('./routes/languages');
+const authRoutes = require('./routes/auth');
 
 // Author Routes
-app.use("/api/authors", authorRoutes);
+app.use('/api/authors', authorRoutes);
 // Article Routes
-app.use("/api/articles", articleRoutes);
+app.use('/api/articles', articleRoutes);
 // Language Routes
-app.use("/api/languages", languageRoutes);
+app.use('/api/languages', languageRoutes);
 // Auth Routes
-app.use("/api/auth", authRoutes);
+app.use('/api/auth', authRoutes);
 
 // require cron for continous requests
-require("./lib/cron");
+require('./lib/cron');
 
 // error handler
 app.use((req, res, next) => {
-  let error = new Error("Not Found");
+  let error = new Error('Not Found');
   error.status = 404;
   next(error);
 });
-const errorHandler = require("./handlers/errors");
+const errorHandler = require('./handlers/errors');
 app.use(errorHandler);
 
 // port
 const PORT = process.env.PORT || 5000;
 app.listen(
   PORT,
-  console.log(`App running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+  console.log(`App running in ${process.env.NODE_ENV} mode on port ${PORT}`),
 );
+
+module.exports = app;

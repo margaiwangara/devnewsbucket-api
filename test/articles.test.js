@@ -1,5 +1,4 @@
 // set env vars
-process.env.MONGO_URI = 'mongodb://localhost:27017/devnewsbucket_testing';
 process.env.NODE_ENV = 'testing';
 
 const chai = require('chai');

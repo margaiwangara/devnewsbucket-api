@@ -1,3 +1,7 @@
+// set env vars
+process.env.MONGO_URI = 'mongodb://localhost:27017/devnewsbucket_testing';
+process.env.NODE_ENV = 'testing';
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const should = chai.should();
@@ -33,6 +37,22 @@ describe('Articles', () => {
           );
           res.body.data.should.be.an('array');
           res.body.data.should.have.lengthOf(0);
+          res.body.count.should.be.eql(0);
+          done();
+        });
+    });
+  });
+
+  // create articles
+  describe('#POST /articles', function() {
+    it('should store articles into db from scrapped data', function(done) {
+      chai
+        .request(server)
+        .post('/api/articles')
+        .end((err, res) => {
+          if (err) return done(err);
+          res.should.have.status(201);
+          res.body.should.be.an('array');
           done();
         });
     });

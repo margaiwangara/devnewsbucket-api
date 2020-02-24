@@ -59,7 +59,7 @@ exports.createArticle = async (req, res, next) => {
         'LLLL',
       )} was successful`,
     );
-    return res.status(200).json(articles);
+    return res.status(201).json(articles);
   } catch (error) {
     errorlog.info(error);
     return next(error);

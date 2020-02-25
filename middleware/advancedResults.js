@@ -6,7 +6,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 
     console.log(reqQuery);
     // remove fields
-    const removeFields = ["filter", "select", "sort", "page", "limit"];
+    const removeFields = ['filter', 'select', 'sort', 'page', 'limit'];
     removeFields.forEach(param => delete reqQuery[param]);
 
     // convert query to string
@@ -15,7 +15,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
     // attach for quering
     queryStr = queryStr.replace(
       /\b(gt|gte|lt|lte|in)\b/g,
-      match => `$${match}`
+      match => `$${match}`,
     );
 
     // run query
@@ -23,16 +23,16 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 
     // select query
     if (req.query.select) {
-      const fields = req.query.select.split(",").join(" ");
+      const fields = req.query.select.split(',').join(' ');
       query = query.select(fields);
     }
 
     // sort
     if (req.query.sort) {
-      const sortBy = req.query.sort.split(",").join(" ");
+      const sortBy = req.query.sort.split(',').join(' ');
       query = query.sort(sortBy);
     } else {
-      query = query.sort("-createdAt");
+      query = query.sort('-createdAt');
     }
 
     // pagination
@@ -59,22 +59,22 @@ const advancedResults = (model, populate) => async (req, res, next) => {
     if (endIndex < total) {
       pagination.next = {
         page: page + 1,
-        limit
+        limit,
       };
     }
 
     if (startIndex > 0) {
       pagination.prev = {
         page: page - 1,
-        limit
+        limit,
       };
     }
 
     res.advancedResults = {
       success: true,
-      count: results.length,
+      count: total,
       pagination,
-      data: results
+      data: results,
     };
     next();
   } catch (error) {

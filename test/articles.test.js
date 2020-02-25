@@ -43,17 +43,17 @@ describe('Articles', () => {
   });
 
   // create articles
-  // describe('#POST /articles', function() {
-  //   it('should store articles into db from scrapped data', function(done) {
-  //     chai
-  //       .request(server)
-  //       .post('/api/articles')
-  //       .end((err, res) => {
-  //         if (err) return done(err);
-  //         res.should.have.status(201);
-  //         res.body.should.be.an('array');
-  //         done();
-  //       });
-  //   });
-  // });
+  describe('#POST /articles', function() {
+    it('should store articles into db from scrapped data', function(done) {
+      chai
+        .request(server)
+        .post('/api/articles')
+        .end((err, res) => {
+          if (err) return done(err);
+          res.should.have.status(201);
+          res.body.should.be.an('array');
+          done();
+        });
+    });
+  });
 });

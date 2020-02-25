@@ -4,7 +4,7 @@ const db =
   process.env.NODE_ENV == 'testing'
     ? process.env.MONGO_URI_TESTING
     : process.env.MONGO_URI;
-const debug = process.env.MONGO_DEBUG || true;
+const debug = process.env.NODE_ENV == 'production' ? false : true;
 
 mongoose.set('debug', debug);
 mongoose.Promise = Promise;

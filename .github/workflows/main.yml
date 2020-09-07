@@ -24,6 +24,7 @@ jobs:
           npm test
         env:
           CI: true
+          MONGO_URI_TESTING: ${{ secrets.MONGO_URI_TESTING }}
 
   deploy:
     needs: [test]

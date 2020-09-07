@@ -3,6 +3,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+const colors = require('colors');
+const connectDB = require('./models');
 
 // security
 const mongoSanitize = require('express-mongo-sanitize');
@@ -41,23 +43,20 @@ app.use(limiter); //no of request rate limited
 app.use(hpp()); //prevent http param polution
 app.use(cors()); //enabled cors for all routes
 
+// Connect DB
+connectDB();
 // Web Routes
 const homeRoutes = require('./routes/web/home');
 app.use('/', homeRoutes);
 
-// Api Routing
+// API Routes
 const authorRoutes = require('./routes/authors');
 const articleRoutes = require('./routes/articles');
 const languageRoutes = require('./routes/languages');
 const authRoutes = require('./routes/auth');
-
-// Author Routes
 app.use('/api/authors', authorRoutes);
-// Article Routes
 app.use('/api/articles', articleRoutes);
-// Language Routes
 app.use('/api/languages', languageRoutes);
-// Auth Routes
 app.use('/api/auth', authRoutes);
 
 // require cron for continous requests

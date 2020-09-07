@@ -1,4 +1,5 @@
-const db = require('../models');
+const Article = require('../models/article');
+const Author = require('../models/author');
 const moment = require('moment');
 const ErrorHandler = require('../utils/errorHandler');
 
@@ -13,25 +14,25 @@ async function articleCreateLogic(article, articles = []) {
 
   let authors = [];
   // check if author name exists in author db
-  const authorExists = await db.Author.findOne({ name: author.name });
+  const authorExists = await Author.findOne({ name: author.name });
   // if exists - get author id , else create author then get author id
   if (authorExists) {
     const { id } = authorExists;
 
     authors.push(id);
   } else {
-    const newAuthor = await db.Author.create({ ...author });
+    const newAuthor = await Author.create({ ...author });
 
     authors.push(newAuthor.id);
   }
 
   // check if article exists
-  const articleExists = await db.Article.findOne({ link });
+  const articleExists = await Article.findOne({ link });
 
   // if article exists skip else create new article !null - not null
   if (articleExists == null) {
     // create new articles
-    const newArticle = await db.Article.create({
+    const newArticle = await Article.create({
       ...article,
       authors,
       datePublished: date,
@@ -76,7 +77,7 @@ exports.getArticles = async (req, res, next) => {
 
 exports.getArticle = async (req, res, next) => {
   try {
-    const article = await db.Article.findOne({
+    const article = await Article.findOne({
       link: req.params.link,
     });
 
@@ -94,7 +95,7 @@ exports.getArticle = async (req, res, next) => {
 
 exports.updateArticle = async (req, res, next) => {
   try {
-    const article = await db.Article.findOneAndUpdate(
+    const article = await Article.findOneAndUpdate(
       { link: req.params.link },
       req.body,
     );
@@ -107,7 +108,7 @@ exports.updateArticle = async (req, res, next) => {
 
 exports.deleteArticle = async (req, res, next) => {
   try {
-    await db.Article.findOneAndDelete({ link: req.params.link });
+    await Article.findOneAndDelete({ link: req.params.link });
     return res.status(200).json({
       message: 'Article deleted',
     });

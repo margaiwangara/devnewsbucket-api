@@ -1,7 +1,7 @@
-const db = require("../models");
+const Author = require('../models/author');
 
 // data collector
-const { dataCollector } = require("../lib/collector");
+const { dataCollector } = require('../lib/collector');
 
 exports.createAuthor = async (req, res, next) => {
   try {
@@ -13,10 +13,10 @@ exports.createAuthor = async (req, res, next) => {
       const { author } = value;
 
       // check if author already exists
-      const existAuthor = await db.Author.findOne({ name: author.name });
+      const existAuthor = await Author.findOne({ name: author.name });
       if (!existAuthor) {
         // create new author
-        const newAuthor = await db.Author.create(author);
+        const newAuthor = await Author.create(author);
         authors.push(newAuthor);
       }
     }
@@ -37,22 +37,22 @@ exports.getAuthors = async (req, res, next) => {
 
 exports.getAuthor = async (req, res, next) => {
   try {
-    const author = await await db.Author.findOne({ name: req.params.name });
+    const author = await await Author.findOne({ name: req.params.name });
 
     return res.status(200).json(author);
   } catch (error) {
     return next({
       status: 404,
-      message: "Not Found"
+      message: 'Not Found',
     });
   }
 };
 
 exports.updateAuthor = async (req, res, next) => {
   try {
-    const author = await db.Author.findOneAndUpdate(
+    const author = await Author.findOneAndUpdate(
       { name: req.params.name },
-      req.body
+      req.body,
     );
 
     return res.status(200).json(author);
@@ -63,14 +63,14 @@ exports.updateAuthor = async (req, res, next) => {
 
 exports.deleteAuthor = async (req, res, next) => {
   try {
-    await db.Author.findOneAndDelete({ name: req.params.name });
+    await Author.findOneAndDelete({ name: req.params.name });
     return res.status(200).json({
-      message: "Author deleted"
+      message: 'Author deleted',
     });
   } catch (error) {
     return next({
       status: 500,
-      message: "Oops. Something went wrong. Not deleted."
+      message: 'Oops. Something went wrong. Not deleted.',
     });
   }
 };

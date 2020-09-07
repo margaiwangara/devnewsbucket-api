@@ -1,26 +1,33 @@
 const mongoose = require('mongoose');
+// const sql = require('mysql');
 
-const db =
-  process.env.NODE_ENV == 'testing'
-    ? process.env.MONGO_URI_TESTING
-    : process.env.MONGO_URI;
-const debug = process.env.NODE_ENV == 'production' ? false : true;
-
-mongoose.set('debug', debug);
+// set debug to true to display db responses
+mongoose.set('debug', true);
+// enable promises for mongoose
 mongoose.Promise = Promise;
 
-mongoose
-  .connect(db, {
-    useNewUrlParser: true,
-    useFindAndModify: true,
-    useCreateIndex: true,
-    keepAlive: true,
-    useUnifiedTopology: true,
-  })
-  .then(conn => console.log(`MongoDB Connected: ${conn.connection.host}`))
-  .catch(error => console.log(error));
+const MONGO_CONFIG = {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  keepAlive: true,
+};
 
-module.exports.Article = require('./article');
-module.exports.Language = require('./language');
-module.exports.Author = require('./author');
-module.exports.User = require('./user');
+async function connectDB() {
+  try {
+    const MONGO_DEBUG = process.env.NODE_ENV !== 'production' ? true : false;
+    const MONGO_URI =
+      process.env.MONGO_URI === 'testing'
+        ? process.env.MONGO_URI_TESTING
+        : process.env.MONGO_URI;
+    // DEBUG
+    mongoose.set('debug', MONGO_DEBUG);
+    const conn = await mongoose.connect(MONGO_URI, MONGO_CONFIG);
+    console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.bold);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+module.exports = connectDB;

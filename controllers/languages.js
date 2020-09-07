@@ -1,8 +1,8 @@
-const db = require("../models");
+const Language = require('../models/language');
 
 exports.createLanguage = async (req, res, next) => {
   try {
-    const newLanguage = await db.Language.create(req.body);
+    const newLanguage = await Language.create(req.body);
 
     return res.status(201).json(newLanguage);
   } catch (error) {
@@ -20,22 +20,22 @@ exports.getLanguages = async (req, res, next) => {
 
 exports.getLanguage = async (req, res, next) => {
   try {
-    const language = await db.Language.findOne({ name: req.params.name });
+    const language = await Language.findOne({ name: req.params.name });
 
     return res.status(200).json(language);
   } catch (error) {
     return next({
       status: 404,
-      message: "Not Found"
+      message: 'Not Found',
     });
   }
 };
 
 exports.updateLanguage = async (req, res, next) => {
   try {
-    const language = await db.Language.findOneAndUpdate(
+    const language = await Language.findOneAndUpdate(
       { name: req.params.name },
-      req.body
+      req.body,
     );
 
     return res.status(200).json(language);
@@ -46,14 +46,14 @@ exports.updateLanguage = async (req, res, next) => {
 
 exports.deleteLanguage = async (req, res, next) => {
   try {
-    await db.Language.findOneAndDelete({ name: req.params.name });
+    await Language.findOneAndDelete({ name: req.params.name });
     return res.status(200).json({
-      message: "Language deleted"
+      message: 'Language deleted',
     });
   } catch (error) {
     return next({
       status: 500,
-      message: "Oops. Something went wrong. Not deleted."
+      message: 'Oops. Something went wrong. Not deleted.',
     });
   }
 };

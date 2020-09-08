@@ -18,6 +18,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Create .env file
+        run: |
+          touch config/.env
+          echo MONGO_URI_TESTING=${{ secrets.MONGO_URI_TESTING }} >> config/.env
+          cat config/.env
+
       - name: Install Dependencies and Test
         run: |
           npm install

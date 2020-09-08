@@ -15,10 +15,7 @@ const hpp = require('hpp');
 const cors = require('cors');
 
 // load env
-process.env.NODE_ENV = 'development';
-if (process.env.NODE_ENV === 'development') {
-  dotenv.config({ path: './config/config.env' });
-}
+dotenv.config({ path: './config/config.env' });
 
 // initialize express
 const app = express();

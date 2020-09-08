@@ -18,7 +18,7 @@ async function connectDB() {
   try {
     const MONGO_DEBUG = process.env.NODE_ENV !== 'production' ? true : false;
     const MONGO_URI =
-      process.env.MONGO_URI === 'testing'
+      process.env.NODE_ENV === 'testing'
         ? process.env.MONGO_URI_TESTING
         : process.env.MONGO_URI;
     // DEBUG

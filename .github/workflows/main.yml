@@ -20,20 +20,9 @@ jobs:
 
       - name: Create .env file
         run: |
-          touch config/.env
-          echo MONGO_URI_TESTING=${{ secrets.MONGO_URI_TESTING }} >> config/.env
-          cat config/.env
-
-      - name: Delete .gitignore
-        run: |
-          rm .gitignore
-
-      - name: Push .env file to dir
-        run: |
-          git config user.email margaiwangara@gmail.com
-          git config user.name margaiwangara
-          git add .
-          git commit -m 'added .env file for testing'
+          touch config/config.env
+          echo MONGO_URI_TESTING=${{ secrets.MONGO_URI_TESTING }} >> config/config.env
+          cat config/config.env
 
       - name: Install Dependencies and Test
         run: |

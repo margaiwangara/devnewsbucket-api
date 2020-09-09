@@ -61,10 +61,10 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     recoveryEmail: String,
-    courses: [
+    bookmarks: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course',
+        ref: 'Article',
       },
     ],
   },

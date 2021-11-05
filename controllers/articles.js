@@ -10,31 +10,31 @@ const { dataCollector } = require('../lib/collector');
 
 async function articleCreateLogic(article, articles = []) {
   // destructure
-  const { link, date, author } = article;
+  const { href, date } = article;
 
-  let authors = [];
+  // let authors = [];
   // check if author name exists in author db
-  const authorExists = await Author.findOne({ name: author.name });
+  // const authorExists = await Author.findOne({ name: author.name });
   // if exists - get author id , else create author then get author id
-  if (authorExists) {
-    const { id } = authorExists;
+  // if (authorExists) {
+  //   const { id } = authorExists;
 
-    authors.push(id);
-  } else {
-    const newAuthor = await Author.create({ ...author });
+  //   authors.push(id);
+  // } else {
+  //   const newAuthor = await Author.create({ ...author });
 
-    authors.push(newAuthor.id);
-  }
+  //   authors.push(newAuthor.id);
+  // }
 
   // check if article exists
-  const articleExists = await Article.findOne({ link });
+  const articleExists = await Article.findOne({ link: href });
 
   // if article exists skip else create new article !null - not null
-  if (articleExists == null) {
+  if (!articleExists) {
     // create new articles
     const newArticle = await Article.create({
       ...article,
-      authors,
+      link: href,
       datePublished: date,
     });
 
@@ -47,10 +47,11 @@ async function articleCreateLogic(article, articles = []) {
   }
 }
 
-exports.createArticle = async (req, res, next) => {
+exports.createArticle = async () => {
   try {
     const data = await dataCollector();
     const articles = [];
+
     for (let article of data) {
       await articleCreateLogic(article, articles);
     }
@@ -60,10 +61,12 @@ exports.createArticle = async (req, res, next) => {
         'LLLL',
       )} was successful`,
     );
-    return res.status(201).json(articles);
+
+    return true;
   } catch (error) {
+    console.log('error', error);
     errorlog.info(error);
-    return next(error);
+    return false;
   }
 };
 

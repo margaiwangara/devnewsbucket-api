@@ -4,6 +4,7 @@ const ErrorResponse = require('../utils/errorHandler');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const emailTemplate = require('../utils/emailTemplate');
+const { v4: uuidv4 } = require('uuid');
 
 // send email function
 const sendEmail = require('../utils/sendEmail');
@@ -36,8 +37,8 @@ exports.registerUser = async (req, res, next) => {
     // save token
     user.save({ validateBeforeSave: false });
 
-    // send email to user with token and stuff
-    const URL = `${process.env.CLIENT_URL}/confirmemail?token=${confirmEmailToken}`;
+    // send email to user with token
+    const URL = `${process.env.CLIENT_URL}/confirm-email?token=${confirmEmailToken}`;
     const options = {
       from: `${process.env.NOREPLY_EMAIL}`,
       to: user.email,
@@ -438,6 +439,15 @@ exports.forgotPassword = async (req, res, next) => {
     // check user with email
     const user = await User.findOne({ email });
 
+    if (!user) {
+      return next(
+        new ErrorResponse(
+          'We just emailed you on the next steps in recovering your account',
+          200,
+        ),
+      );
+    }
+
     // generate reset token
     const resetToken = user.generatePasswordResetToken();
 
@@ -445,7 +455,7 @@ exports.forgotPassword = async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     // send email to user with token and stuff
-    const URL = `${process.env.CLIENT_URL}/resetpassword?token=${resetToken}`;
+    const URL = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`;
     const options = {
       from: `${process.env.NOREPLY_EMAIL}`,
       to: email,
@@ -491,15 +501,15 @@ exports.resetPassword = async (req, res, next) => {
     }
 
     // split token
-    const splitToken = token.split('.')[0];
-    const resetPasswordToken = crypto
-      .createHash('sha256')
-      .update(splitToken)
-      .digest('hex');
+    // const splitToken = token.split('.')[0];
+    // const resetPasswordToken = crypto
+    //   .createHash('sha256')
+    //   .update(splitToken)
+    //   .digest('hex');
 
     // get user by token
     const user = await User.findOne({
-      resetPasswordToken,
+      resetPasswordToken: token,
       passwordTokenExpire: { $gt: Date.now() },
     });
 
@@ -583,15 +593,17 @@ exports.confirmEmail = async (req, res, next) => {
       return next(new ErrorResponse('Invalid Token', 400));
     }
 
-    const splitToken = token.split('.')[0];
-    const confirmEmailToken = crypto
-      .createHash('sha256')
-      .update(splitToken)
-      .digest('hex');
+    console.log('token', token);
 
-    // get user by token
+    // const splitToken = token.split('.')[0];
+    // const confirmEmailToken = crypto
+    //   .createHash('sha256')
+    //   .update(splitToken)
+    //   .digest('hex');
+
+    // get user by token and check if exists
     const user = await User.findOne({
-      confirmEmailToken,
+      confirmEmailToken: token,
       isEmailConfirmed: false,
     });
 
@@ -607,6 +619,7 @@ exports.confirmEmail = async (req, res, next) => {
     user.save({ validateBeforeSave: false });
 
     console.log(user);
+    console.log('confirming user', user);
     // return token
     getTokenResponse(user, 200, res);
   } catch (error) {

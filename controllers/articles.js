@@ -47,7 +47,7 @@ async function articleCreateLogic(article, articles = []) {
   }
 }
 
-exports.createArticle = async () => {
+exports.createArticle = async (req, res, next) => {
   try {
     const data = await dataCollector();
     const articles = [];
@@ -62,10 +62,17 @@ exports.createArticle = async () => {
       )} was successful`,
     );
 
+    if (res) {
+      return res.status(201).json(articles);
+    }
+
     return true;
   } catch (error) {
-    console.log('error', error);
     errorlog.info(error);
+
+    if (next) {
+      return next(error);
+    }
     return false;
   }
 };

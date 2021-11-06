@@ -41,7 +41,12 @@ app.use(helmet()); //helmet to add headers and prevent security flaws
 app.use(xssClean()); //prevent xss attacks eg <script></script> tags in db
 app.use(limiter); //no of request rate limited
 app.use(hpp()); //prevent http param polution
-app.use(cors()); //enabled cors for all routes
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }),
+); //enabled cors for all routes
 
 // Connect DB
 connectDB();

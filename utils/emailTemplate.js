@@ -50,7 +50,7 @@ const emailTemplate = (ops) => {
                       <p>
                         Welcome to
                         <a style="text-decoration: none;" href="${process.env.CLIENT_URL}/">${options.app}</a
-                        >, an online education platform.
+                        >, a technology news update application.
                       </p>
                     </td>
                   </tr>
